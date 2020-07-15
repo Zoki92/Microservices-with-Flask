@@ -9,7 +9,7 @@ users_blueprint = Blueprint("users", __name__, template_folder="./templates")
 
 @users_blueprint.route("/users/ping", methods=["GET"])
 def ping_pong():
-    return jsonify({"status": "success", "message": "pong!",})
+    return jsonify({"status": "success", "message": "pong!"})
 
 
 @users_blueprint.route("/users", methods=["POST"])
@@ -28,7 +28,10 @@ def add_user():
         if not user:
             db.session.add(User(username=username, email=email))
             db.session.commit()
-            response_object = {"status": "success", "message": f"{email} was added!"}
+            response_object = {
+                "status": "success",
+                "message": f"{email} was added!",
+            }
             return jsonify(response_object), 201
         else:
             response_object["message"] = "Sorry, that email already exists."

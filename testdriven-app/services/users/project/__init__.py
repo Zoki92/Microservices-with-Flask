@@ -1,10 +1,9 @@
-import sys
 import os
-import datetime
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, jsonify
+from flask import Flask
 
 db = SQLAlchemy()
+
 
 # Application factory pattern script
 def create_app(script_info=None):
