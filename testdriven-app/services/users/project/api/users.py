@@ -81,5 +81,10 @@ def index():
         email = request.form["email"]
         db.session.add(User(email=email, username=username))
         db.session.commit()
-    users = User.query.all()
+    users = None
+    try:
+        users = User.query.all()
+    except Exception as identifier:
+        pass
+
     return render_template("index.html", users=users)
