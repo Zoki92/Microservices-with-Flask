@@ -67,9 +67,14 @@ def get_single_user(user_id):
 @users_blueprint.route("/users", methods=["GET"])
 def get_all_users():
     """Get all users"""
+    users = []
+    try:
+        users = [user.to_json() for user in User.query.all()]
+    except Exception as e:
+        pass
     response_object = {
         "status": "success",
-        "data": {"users": [user.to_json() for user in User.query.all()]},
+        "data": {"users": users},
     }
     return jsonify(response_object), 200
 

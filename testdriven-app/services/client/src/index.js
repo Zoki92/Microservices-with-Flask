@@ -44,7 +44,6 @@ class App extends Component {
           username: "",
           email: "",
         });
-        console.log(res);
       })
       .catch((err) => console.log(err));
   }
