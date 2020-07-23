@@ -1,12 +1,12 @@
-version: '3.4'
+version: "3.4"
 services:
   users:
     container_name: users
-    build: 
+    build:
       context: ./services/users
       dockerfile: Dockerfile-prod
     expose:
-      - '5000'
+      - "5000"
     environment:
       - APP_SETTINGS=project.config.ProductionConfig
       - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_prod
@@ -15,6 +15,21 @@ services:
       - users-db
     links:
       - users-db
+
+  client:
+    container_name: client
+    build:
+      context: ./services/client
+      dockerfile: Dockerfile-prod
+      args:
+        - NODE_ENV=production
+        - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+    ports:
+      - "3007:80"
+    depends_on:
+      - users
+    links:
+      - users
 
   users-db:
     container_name: users-db
@@ -29,9 +44,12 @@ services:
 
   nginx:
     container_name: nginx
-    build: ./services/nginx
+    build:
+      context: ./services/nginx
+      dockerfile: Dockerfile-prod
     restart: always
     ports:
-    - 80:80
+      - 80:80
     depends_on:
-    - users
+      - users
+      - client
