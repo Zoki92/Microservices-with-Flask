@@ -1,1 +1,7 @@
 htmlcov
+env
+htmlcov
+.dockerignore
+Dockerfile-dev
+Dockerfile-prod
+migrations
