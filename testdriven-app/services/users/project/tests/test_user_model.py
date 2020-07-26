@@ -39,6 +39,12 @@ class TestUserModel(BaseTestCase):
         other_user = add_user(username="zoran1", email="zoran2@123.com", password='greaterthaneight')
         self.assertNotEqual(user.password, other_user.password)
 
+    def test_encode_auth_token(self):
+        user = add_user('zoran', 'zoran@123.com', 'test')
+        auth_token = user.encode_auth_token(user.id)
+        self.assertTrue(isinstance(auth_token, bytes))
+        self.assertEqual(User.decode_auth_token(auth_token), user.id)
+
 
 if __name__ == '__main__':
     unittest.main()
