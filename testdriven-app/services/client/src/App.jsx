@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar";
 import { Route, Switch } from "react-router-dom";
 import Form from "./components/Form";
 import Logout from "./components/Logout";
+import UserStatus from "./components/UserStatus";
 
 class App extends Component {
   constructor() {
@@ -21,7 +22,7 @@ class App extends Component {
         email: "",
         password: "",
       },
-      isAuthenticated: false,
+      isAuthenticated: window.localStorage.getItem("authToken") ?? false,
     };
     this.addUser = this.addUser.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -110,7 +111,10 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBar title={this.state.title} />
+        <NavBar
+          title={this.state.title}
+          isAuthenticated={this.state.isAuthenticated}
+        />
         <div className="container">
           <div className="row">
             <div className="col-md-4">
@@ -137,6 +141,13 @@ class App extends Component {
                   )}
                 />
                 <Route exact path="/about" component={About} />
+                <Route
+                  exact
+                  path="/status"
+                  render={() => (
+                    <UserStatus isAuthenticated={this.state.isAuthenticated} />
+                  )}
+                />
                 <Route
                   exact
                   path="/register"
